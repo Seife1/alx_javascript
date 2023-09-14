@@ -7,9 +7,14 @@
 const request = require('request');
 const id = process.argv[2];
 
+const parts = [];
+
 request.get(`https://swapi-api.alx-tools.com/api/films/${id}`, { encoding: 'utf-8'})
   .on('data', function (data) {
-    const obj = JSON.parse(data);
+    parts.push(data);
+  })
+  .on('complete', function () {
+    const obj = JSON.parse(parts)
     console.log(obj.title);
   })
 
