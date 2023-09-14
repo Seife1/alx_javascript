@@ -9,13 +9,8 @@ const url = `${process.argv[2]}`;
 
 const parts = [];
 
-request.get(url)
-  .on('data', function (data) {
-    parts.push(data);
-  })
+request.get(url, {encoding: 'utf-8'})
   .on('response', function (response) {
     console.log('Code:', response.statusCode);
   })
-  .on('error', function (err) {
-    console.log(err);
-  })
+
