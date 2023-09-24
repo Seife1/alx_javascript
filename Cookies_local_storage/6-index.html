@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Storage</title>
+</head>
+<body>
+    <script>
+        const header = document.createElement('h1');
+        header.innerText = "Available Items";
+        const span = document.createElement('span');
+        span.innerText = '  (Click the item to add to a cart)';
+        span.style.fontSize = '12px';
+        header.appendChild(span);
+        document.body.appendChild(header);
+        
+        let availableItems =["Shampoo", "Soap", "Sponge", "Water"];
+
+        // check for browser support localstorage
+        if (typeof(Storage) !== "undefined") {
+            createStore();
+            displayCart();
+
+        } else {
+            alert("Sorry, your browser does not support Web storage. Try again with a better one");
+        }
+
+        // add a key to l.storage
+        function addItemToCart(item) {
+            localStorage.setItem(item, true);
+        }
+
+        // Store
+        function createStore() {
+            const div = document.createElement('div');
+            const listItem = document.createElement('ul');
+            
+            div.appendChild(listItem);
+            document.body.appendChild(div);
+            for (let item of availableItems) {
+                const list = document.createElement('li');
+                list.innerText = item;
+                listItem.appendChild(list);
+
+                list.addEventListener('click', function() {
+                    addItemToCart(item);
+                    displayCart();
+                });
+            }
+        }
+
+        // Display cart
+        function displayCart() {
+            const para = document.createElement('p');
+            let cartSize = 0;
+
+            for (let item of availableItems) {
+                if (localStorage.getItem(item) === "true") {
+                    cartSize++
+                }
+            }
+            
+           if (cartSize !== 0) {
+            para.innerText = `You previously had ${cartSize} item(s) in your cart`;
+           }
+
+           // Remove the existing paragraph if it exist
+           const existingPara = document.querySelector('p');
+            if (existingPara) {
+                existingPara.remove();
+            }
+
+            document.body.appendChild(para);
+        }
+    </script>
+    
+</body>
+</html>

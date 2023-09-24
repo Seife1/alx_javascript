@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+</head>
+<body>
+    <div class="form1">
+        <form action="">
+            <h2>Login to the website</h2>
+            <label for="firstName"><input type="text" name="text" id="firstName" placeholder="FirstName"></label>
+            <label for="email"><input type="email" name="email" id="email" placeholder="Email"></label>
+            <button id="btn-log" type="button" autofocus="true">Log me in</button>
+        </form>
+        
+    </div>
+
+    <script>
+        let first_name = '';
+        let email = '';
+        let expires = '';
+        let allCookies = '';
+
+        function setCookies() {
+            first_name = document.getElementById('firstName').value;
+            email = document.getElementById('email').value;
+            const d = new Date();
+            d.setTime(d.getTime() + 10*24*60*60*1000);
+            expires = d.toUTCString();
+
+
+            document.cookie = `FirstName=${first_name}; Expires=${expires}; path=/`;
+            document.cookie = `Email=${email}; Expires=${expires}; path=/`;
+
+            allCookies = document.cookie;
+
+            showWelcomeMessageOrForm();
+        }
+
+        function getCookie(name) {
+            const cookieName = `${name}=`;
+            let value = null;
+
+            const startIndex = allCookies.indexOf(cookieName);
+            if (startIndex > -1) {
+                let endIndex = allCookies.indexOf(';', startIndex);
+                if (endIndex == -1) {
+                    endIndex = allCookies.length;
+                }
+
+                value = allCookies.substring(startIndex + cookieName.length, endIndex);
+            }
+            return value;
+        }
+
+        function showForm () {
+            const welcomePage = document.querySelector('.welcome');
+
+            if (welcomePage) {
+                welcomePage.remove();
+            }
+
+            document.querySelector('.form1').style.display = 'flex';
+        }
+
+        function hideForm() {
+            document.querySelector('.form1').style.display = 'none';
+        }
+
+        function deleteCookiesAndShowForm() {
+            document.cookie = "FirstName=; Expires=Thu, 23 Sep 1970 00:00:00 GMT; path=/;";
+            document.cookie = "Email=; Expires=Thu, 23 Sep 1970 00:00:00 GMT; path=/;";
+            
+            showForm();
+        }
+
+        function showWelcomeMessageOrForm() {
+            const emailCookie = getCookie("Email");
+            const nameCookie = getCookie("FirstName");
+
+            if (emailCookie && nameCookie) {
+                hideForm();
+                // The user Logged in
+
+                const body = document.body;
+                const div = document.createElement('div');
+                div.setAttribute('class', 'welcome')
+
+                div.innerHTML = `<h1>Welcome: ${nameCookie} <a href="#">(logout)</a></h1>`;
+                body.appendChild(div);
+
+                const anchor = document.getElementsByTagName('a')[0];
+                anchor.style.fontWeight = 'normal';
+                anchor.style.fontStyle = 'italic';
+                anchor.style.fontSize = '10px';
+                anchor.addEventListener('click', function() {
+                    deleteCookiesAndShowForm();
+                });
+            } else {
+                showForm();
+            }
+        }
+
+        document.getElementById('btn-log').addEventListener("click", setCookies);
+    </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Cookies</title>
+    <style>
+        h1 {
+            font-weight: bold;
+            font-size: 52px;
+        }
+    </style>
+</head>
+<body>
+    <form action="">
+        <h1>Login to the website</h1>
+        <label for="firstname"><input type="text" name="firstname" id="firstname" placeholder="Firstname"></label>
+        <label for="email"><input type="email" name="email" id="email" placeholder="Email"></label>
+        <button type="button" id="set">Log me in</button>
+
+        <h1>Cookies</h1>
+        <button type="button" id="show">Show the cookies</button>
+    </form>
+
+    <script>
+        let firstname = "";
+        let email = "";
+        let expires = "";
+        let allCookies = "";
+
+        function setCookies() {
+            firstname = document.getElementById('firstname').value;
+            email = document.getElementById('email').value;
+            const d = new Date();
+            d.setTime(d.getTime() + 10 * 24 * 60 * 60 * 1000);
+            expires = d.toUTCString();
+
+            document.cookie = `Email=${email}`;
+            document.cookie = `Firstname=${firstname}`;
+            document.cookie = `Expires=${expires}`;
+            allCookies = document.cookie;
+        }
+
+        function showCookies() {
+            const body = document.body;
+            const paragraph = document.createElement('p');
+
+            const emailValue = getCookie("Email");
+            const firstNameValue = getCookie("Firstname")
+
+            
+            paragraph.innerText = `Email: ${emailValue} - Firstname: ${firstNameValue}`;
+
+            body.appendChild(paragraph);
+        }
+
+        function getCookie(name) {
+            const cookieName = `${name}=`;
+            let value = null;
+
+            const startIndex = allCookies.indexOf(cookieName);
+            if (startIndex > -1) {
+                const endIndex = allCookies.indexOf(';', startIndex);
+                if (endIndex == -1) {
+                    endIndex = allCookies.length;
+                }
+
+                value = allCookies.substring(startIndex + cookieName.length, endIndex);
+            }
+            return value;
+        }
+
+        const show_btn = document.getElementById('show');
+        const set_btn = document.getElementById('set');
+
+        show_btn.addEventListener("click", showCookies);
+        set_btn.addEventListener("click", setCookies);
+    </script>
+</body>
+</html>
