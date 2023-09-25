@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creating and Removing Elements</title>
+</head>
+<body>
+    <div id="container"></div>
+
+    <script>
+        const conte = document.getElementById('container');
+        const para = document.createElement('p');
+        para.textContent = "New paragraph";
+        conte.append(para);
+
+        const button = document.createElement('button');
+        button.textContent = "Click me";
+        document.body.append(button);
+
+        let counter = 0;
+
+        button.addEventListener('click', function() {
+            counter++;
+
+        if (counter % 2 !== 0) {
+            para.remove();
+        } else {
+            conte.append(para);
+        }
+        })
+
+    </script>
+</body>
+</html>

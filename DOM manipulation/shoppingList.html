@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping List</title>
+</head>
+<body>
+    <h1>My shopping list</h1>
+    <form id="itemForm">
+        <label for="new_item">Enter a new item: <input type="text" id="new_item"></label>
+        <button type="submit">Add item</button>
+    </form>
+
+    <ul id="itemList"></ul>
+
+    <script>
+        const items = [];
+        const itemForm = document.getElementById('itemForm');
+        const itemList = document.getElementById('itemList');
+
+        itemForm.addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent form submission
+
+            const newItemInput = document.getElementById('new_item');
+            const newItemValue = newItemInput.value.trim(); // Trim removes leading/trailing spaces
+
+            if (newItemValue !== '') {
+                items.push(newItemValue);
+                newItemInput.value = ''; // Clear the input field
+
+                // Create a new list item and delete button
+                const li = document.createElement("li");
+                li.textContent = newItemValue;
+                const clear = document.createElement("button");
+                clear.innerText = "Delete";
+                clear.addEventListener('click', function() {
+                    li.remove();
+                    const indexToRemove = items.indexOf(newItemValue);
+                    if (indexToRemove !== -1) {
+                        items.splice(indexToRemove, 1); // Remove the item from the array
+                    }
+                });
+
+                li.appendChild(clear);
+                itemList.appendChild(li);
+            }
+        });
+    </script>
+</body>
+</html>
