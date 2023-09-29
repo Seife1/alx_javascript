@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <style>
+        fieldset {
+            margin: 5rem auto;
+            max-width: 25rem;
+            border-radius: 1rem;
+        }
+        form {
+            padding: 1rem;
+        }
+        p {
+            margin: 1rem auto;
+            max-width: 17rem;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <fieldset>
+        <form action="" id="emailForm">
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email">
+            <button type="submit" id="btn">Submit</button>
+            <p id="error"></p>
+        </form> 
+    </fieldset>
+    
+    <script src="1-email-validation.js"></script>
+</body>
+</html>
